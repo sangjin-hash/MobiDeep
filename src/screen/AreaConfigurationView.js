@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, Pressable, Image} from 'react-native';
 import {NativeBaseProvider, Select, Box} from 'native-base';
 import React from 'react';
 import {
@@ -7,9 +7,15 @@ import {
   width,
   AreaPMCodes,
   AreaPMSigunguCodes,
+  AreaPMDongCodes,
 } from '../util/globalStyles';
+import {useSelector, useDispatch} from 'react-redux';
+import {setSido, setSigungu, setDong} from '../redux/action';
 
 export default function AreaConfigurationView({navigation}) {
+  const {sido, sigungu, dong} = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+
   const onPass = () => {
     navigation.navigate('TestView');
   };
@@ -31,9 +37,57 @@ export default function AreaConfigurationView({navigation}) {
               '보다 정확한 서비스를 위해\n기계가 설치된 지역 정보를 등록해주시기 바랍니다.'
             }
           </Text>
-
+          <Box style={styles.selectBox}>
+            <Text style={styles.selectTitle}>지역등록</Text>
+            <Select
+              style={styles.select}
+              accessibilityLabel="선택"
+              placeholder="선택"
+              _selectedItem={{
+                bg: colors.backgroundWhite,
+              }}
+              onValueChange={(value) => {
+                dispatch(setSido(value));
+                dispatch(setSigungu(''));
+                dispatch(setDong(''));
+              }}
+              selectedValue={sido}
+              mt={1}>
+              {AreaPMCodes.map((x) => (
+                <Select.Item label={x.sido} value={x.sido} />
+              ))}
+            </Select>
+            <Select
+              style={styles.select}
+              accessibilityLabel="선택"
+              placeholder="선택"
+              _selectedItem={{
+                bg: colors.backgroundWhite,
+              }}
+              onValueChange={(value) => dispatch(setSigungu(value))}
+              selectedValue={sigungu}
+              mt={1}>
+              {AreaPMSigunguCodes.filter((k) => k.sido === sido).map((x) => (
+                <Select.Item label={x.sigungu} value={x.sigungu} />
+              ))}
+            </Select>
+            <Select
+              style={styles.select}
+              accessibilityLabel="선택"
+              placeholder="선택"
+              _selectedItem={{
+                bg: colors.backgroundWhite,
+              }}
+              onValueChange={(value) => dispatch(setDong(value))}
+              selectedValue={dong}
+              mt={1}>
+              {AreaPMDongCodes.filter((k) => k.sigungu === sigungu).map((x) => (
+                <Select.Item label={x.dong} value={x.dong} />
+              ))}
+            </Select>
+          </Box>
           <Pressable style={styles.button} onPress={onPass}>
-            <Text style={styles.subTitle}>버튼</Text>
+            <Text style={styles.text}>등록</Text>
           </Pressable>
         </Box>
       </Box>
@@ -51,6 +105,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: height * 790,
     padding: width * 20,
+    alignItems: 'center',
   },
   image: {
     width: width * 350,
@@ -60,7 +115,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: colors.textBlue,
+    color: colors.Blue,
     textAlign: 'center',
     marginBottom: width * 20,
   },
@@ -72,9 +127,33 @@ const styles = StyleSheet.create({
     marginBottom: width * 25,
   },
   button: {
-    width: 100,
-    height: 50,
-    backgroundColor: colors.textBlue,
+    width: width * 70,
+    height: height * 36,
+    backgroundColor: colors.Blue,
+    borderRadius: 5,
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+    color: colors.backgroundWhite,
+    textAlign: 'center',
+  },
+  selectBox: {
+    width: width * 350,
+    height: height * 240,
+    backgroundColor: colors.backgroundWhite,
+    padding: width * 20,
+    borderRadius: 10,
+    marginBottom: width * 20,
+  },
+  selectTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.textBlack,
+  },
+  select: {
+    width: width * 310,
+    height: height * 40,
   },
 });
