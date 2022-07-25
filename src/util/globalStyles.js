@@ -4,8 +4,10 @@ export const colors = {
   Blue: '#057BDE',
   textGrey: '#666666',
   textBlack: '#000000',
+  textBlackGrey: '#444444',
   backgroundGrey: '#EDEDED',
   backgroundWhite: '#ffffff',
+  iconGrey: '#BBBBBB',
 };
 
 export const font = {};

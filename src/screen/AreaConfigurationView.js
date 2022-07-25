@@ -1,6 +1,7 @@
 import {StyleSheet, Text, Pressable, Image} from 'react-native';
 import {NativeBaseProvider, Select, Box} from 'native-base';
 import React from 'react';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {
   colors,
   height,
@@ -17,7 +18,7 @@ export default function AreaConfigurationView({navigation}) {
   const dispatch = useDispatch();
 
   const onPass = () => {
-    navigation.navigate('TestView');
+    navigation.navigate('AdditionalConfigurationView');
   };
 
   return (
@@ -26,7 +27,7 @@ export default function AreaConfigurationView({navigation}) {
         <Box style={styles.body}>
           <Image
             style={styles.image}
-            source={require('../../assets/top_tap.png')}
+            source={require('../../assets/top_tab.png')}
             resizeMode="stretch"
           />
           <Text style={styles.mainTitle} numberOfLines={2}>
@@ -104,27 +105,27 @@ const styles = StyleSheet.create({
   body: {
     width: '100%',
     height: height * 790,
-    padding: width * 20,
+    padding: 20,
     alignItems: 'center',
   },
   image: {
     width: width * 350,
     height: height * 41,
-    marginBottom: width * 29,
+    marginBottom: 29,
   },
   mainTitle: {
-    fontSize: 25,
+    fontSize: RFValue(25),
     fontWeight: 'bold',
     color: colors.Blue,
     textAlign: 'center',
-    marginBottom: width * 20,
+    marginBottom: 20,
   },
   subTitle: {
-    fontSize: 15,
+    fontSize: RFValue(15),
     fontWeight: 'bold',
     color: colors.textGrey,
     textAlign: 'center',
-    marginBottom: width * 25,
+    marginBottom: 25,
   },
   button: {
     width: width * 70,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 16,
+    fontSize: RFValue(16),
     color: colors.backgroundWhite,
     textAlign: 'center',
   },
@@ -143,12 +144,12 @@ const styles = StyleSheet.create({
     width: width * 350,
     height: height * 240,
     backgroundColor: colors.backgroundWhite,
-    padding: width * 20,
+    padding: 20,
     borderRadius: 10,
-    marginBottom: width * 20,
+    marginBottom: 20,
   },
   selectTitle: {
-    fontSize: 16,
+    fontSize: RFValue(16),
     fontWeight: 'bold',
     color: colors.textBlack,
   },

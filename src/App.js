@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AreaConfigurationView from './screen/AreaConfigurationView';
-import TestView from './screen/TestView';
+import AdditionalConfiguraionView from './screen/AdditionalConfigurationView';
 import Header from './components/Header';
 import {Provider} from 'react-redux';
 import {Store} from './redux/store';
@@ -23,11 +23,8 @@ function App() {
             component={AreaConfigurationView}
           />
           <Stack.Screen
-            name="TestView"
-            component={TestView}
-            options={{
-              header: () => null,
-            }}
+            name="AdditionalConfigurationView"
+            component={AdditionalConfiguraionView}
           />
         </Stack.Navigator>
       </NavigationContainer>
