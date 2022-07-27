@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {
+  View,
   Text,
   TouchableWithoutFeedback,
   StyleSheet,
@@ -19,85 +20,78 @@ import {colors, height, width} from '../util/globalStyles';
 export default function LocationCollapsible() {
   const [open, setOpen] = useState(false);
   const [location, setLocation] = useState(null);
-  const animatedController = useRef(new Animated.Value(0)).current;
-  const [bodySectionHeight, setBodySectionHeight] = useState();
 
-  const bodyHeight = animatedController.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, bodySectionHeight],
-  });
+  const initial_height = height * 93;
+  const extended_height = height * 172;
+  const [parentHeight, setParentHeight] = useState(initial_height);
+
+  const animatedController = useRef(new Animated.Value(0)).current;
 
   const arrowAngle = animatedController.interpolate({
     inputRange: [0, 1],
     outputRange: ['0rad', `${Math.PI}rad`],
   });
 
-  const toggleButtonItem = () => {
+  const toggleAnimation = () => {
     if (open) {
       Animated.timing(animatedController, {
-        duration: 300,
+        duration: 500,
         toValue: 0,
         easing: Easing.bezier(0.4, 0.0, 0.2, 1),
       }).start();
+      setParentHeight(initial_height);
     } else {
       Animated.timing(animatedController, {
-        duration: 300,
+        duration: 500,
         toValue: 1,
         easing: Easing.bezier(0.4, 0.0, 0.2, 1),
       }).start();
+      setParentHeight(extended_height);
     }
     setOpen(!open);
   };
 
+  const locationInput = () => {
+    if (!open) {
+      if (location == null) {
+        return <Text style={styles.boxSubTitle}>등록된 정보 없음</Text>;
+      } else {
+        return <Text style={styles.boxSubTitle}>{location}</Text>;
+      }
+    } else {
+      return <View></View>;
+    }
+  };
+
   return (
-    <NativeBaseProvider>
-      <TouchableWithoutFeedback onPress={() => toggleButtonItem()}>
-        <Box style={styles.locationBox}>
-          <VStack space={2} justifyContent="center">
+    <View style={styles.mainContainer}>
+      <TouchableWithoutFeedback onPress={() => toggleAnimation()}>
+        <Animated.View
+          style={[
+            styles.locationBox,
+            {width: width * 319, height: parentHeight},
+          ]}>
+          <View>
             <Text style={styles.boxMainTitle}>기기 설치 위치 등록</Text>
-            <Text style={styles.boxSubTitle}>등록된 정보 없음</Text>
-          </VStack>
-          <Animated.View>
+            {locationInput()}
+          </View>
+          <Animated.View
+            style={{
+              transform: [{rotateZ: arrowAngle}],
+            }}>
             <ChevronDownIcon size={6}></ChevronDownIcon>
           </Animated.View>
-        </Box>
+        </Animated.View>
       </TouchableWithoutFeedback>
-      <Animated.View style={[styles.contentContainer]}>
-        <Box styles={styles.locationExtendedBox}>
-          <VStack space={2}>
-            <HStack space={4}>
-              <Box style={styles.firstRowBox}>
-                <Text style={styles.boxSubTitle}>거실</Text>
-              </Box>
-              <Box style={styles.firstRowBox}>
-                <Text style={styles.boxSubTitle}>주방</Text>
-              </Box>
-              <Box style={styles.firstRowBox}>
-                <Text style={styles.boxSubTitle}>안방</Text>
-              </Box>
-              <Box style={styles.firstRowBox}>
-                <Text style={styles.boxSubTitle}>방</Text>
-              </Box>
-            </HStack>
-            <HStack space={3}>
-              <Box style={styles.secondRowBox}>
-                <Text style={styles.boxSubTitle}>드레스룸</Text>
-              </Box>
-              <Box style={styles.secondRowBox}>
-                <Text style={styles.boxSubTitle}>화장실</Text>
-              </Box>
-              <Box style={styles.secondRowBox}>
-                <Text style={styles.boxSubTitle}>그외</Text>
-              </Box>
-            </HStack>
-          </VStack>
-        </Box>
-      </Animated.View>
-    </NativeBaseProvider>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   locationBox: {
     width: width * 319,
     height: height * 93,
@@ -107,10 +101,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    display: 'flex',
   },
   locationExtendedBox: {
-    width: width * 350,
+    width: width * 319,
     height: height * 172,
     backgroundColor: colors.backgroundWhite,
     padding: 20,
@@ -126,22 +119,5 @@ const styles = StyleSheet.create({
   boxSubTitle: {
     fontSize: RFValue(16),
     color: colors.textGrey,
-  },
-  contentContainer: {
-    overflow: 'hidden',
-  },
-  firstRowBox: {
-    width: width * 54,
-    height: height * 44,
-    backgroundColor: colors.backgroundColor,
-    borderColor: colors.iconGrey,
-    borderRadius: 10,
-  },
-  secondRowBox: {
-    width: width * 108,
-    height: height * 44,
-    backgroundColor: colors.backgroundColor,
-    borderColor: colors.iconGrey,
-    borderRadius: 10,
   },
 });
