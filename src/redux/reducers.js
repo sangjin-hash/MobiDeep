@@ -1,9 +1,18 @@
-import {SET_USER_SIDO, SET_USER_SIGUNGU, SET_USER_DONG} from './action';
+import {
+  SET_USER_SIDO,
+  SET_USER_SIGUNGU,
+  SET_USER_DONG,
+  SET_DEVICE_LOCATION,
+} from './action';
 
 const initialState = {
   sido: '',
   sigungu: '',
   dong: '',
+};
+
+const initialDeviceState = {
+  locaiton: '',
 };
 
 function userReducer(state = initialState, action) {
@@ -20,3 +29,12 @@ function userReducer(state = initialState, action) {
 }
 
 export default userReducer;
+
+function deviceReducer(state = initialDeviceState, action) {
+  switch (action.type) {
+    case SET_DEVICE_LOCATION:
+      return {...state, location: action.payload};
+    default:
+      return state;
+  }
+}

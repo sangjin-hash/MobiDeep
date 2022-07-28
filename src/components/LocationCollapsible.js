@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {colors, height, width} from '../util/globalStyles';
+import ButtonOptions from './ButtonOptions';
 
 export default function LocationCollapsible() {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,7 @@ export default function LocationCollapsible() {
         duration: 500,
         toValue: 0,
         easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+        useNativeDriver: true,
       }).start();
       setParentHeight(initial_height);
     } else {
@@ -45,6 +47,7 @@ export default function LocationCollapsible() {
         duration: 500,
         toValue: 1,
         easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+        useNativeDriver: true,
       }).start();
       setParentHeight(extended_height);
     }
@@ -59,14 +62,28 @@ export default function LocationCollapsible() {
         return <Text style={styles.boxSubTitle}>{location}</Text>;
       }
     } else {
-      return <View></View>;
+      return (
+        <View>
+          <ButtonOptions
+            options={[
+              '거실',
+              '주방',
+              '안방',
+              '방',
+              '드레스룸',
+              '화장실',
+              '그외',
+            ]}
+            onChange={(option) => setLocation(option)}></ButtonOptions>
+        </View>
+      );
     }
   };
 
   return (
     <View style={styles.mainContainer}>
       <TouchableWithoutFeedback onPress={() => toggleAnimation()}>
-        <Animated.View
+        <View
           style={[
             styles.locationBox,
             {width: width * 319, height: parentHeight},
@@ -81,7 +98,7 @@ export default function LocationCollapsible() {
             }}>
             <ChevronDownIcon size={6}></ChevronDownIcon>
           </Animated.View>
-        </Animated.View>
+        </View>
       </TouchableWithoutFeedback>
     </View>
   );
