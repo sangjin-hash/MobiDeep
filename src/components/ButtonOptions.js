@@ -11,6 +11,7 @@ class ButtonOptions extends Component {
       activeOption: this.props.options[-1],
     };
   }
+
   updateActiveOption = (activeOption) => {
     this.setState({
       activeOption,
@@ -175,16 +176,16 @@ class ButtonOptions extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: width * 295,
+    width: width * 310,
     height: height * 98,
   },
   firstRow: {
-    width: width * 295,
+    width: width * 310,
     height: height * 44,
     flexDirection: 'row',
   },
   secondRow: {
-    width: width * 272,
+    width: width * 310,
     height: height * 44,
     flexDirection: 'row',
   },
