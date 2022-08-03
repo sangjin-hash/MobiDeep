@@ -18,7 +18,7 @@ export default function AreaConfigurationView({navigation}) {
   const dispatch = useDispatch();
 
   const onPass = () => {
-    navigation.navigate('AdditionalConfigurationView');
+    navigation.navigate('TestView');
   };
 
   return (

@@ -8,6 +8,7 @@ export const colors = {
   backgroundGrey: '#EDEDED',
   backgroundWhite: '#ffffff',
   iconGrey: '#BBBBBB',
+  lightGrey: '#DDDDDD',
 };
 
 export const font = {};

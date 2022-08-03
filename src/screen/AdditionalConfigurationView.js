@@ -20,7 +20,7 @@ import ExtendedView from '../components/ExtendedView';
 
 export default function AdditionalConfiguraionView({navigation, route}) {
   const onPass = () => {
-    navigation.navigate('AdditionalConfigurationView');
+    navigation.navigate('AreaConfigurationView');
   };
 
   return (

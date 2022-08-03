@@ -4,11 +4,11 @@ import {colors, height, width} from '../util/globalStyles';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {VStack} from 'native-base';
 
-class ButtonOptions extends Component {
+class ButtonMultipleOptions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeOption: this.props.options[-1],
+      //activeOption: this.props.options[-1],
     };
   }
 
@@ -53,9 +53,9 @@ class ButtonOptions extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <VStack space={2}>
+        <VStack space={3}>
           <View style={styles.row}>
-            {this.props.options.slice(0, 4).map((option, index) => (
+            {this.props.options.slice(0, 2).map((option, index) => (
               <TouchableOpacity
                 onPress={() => {
                   this.props.onChange(option);
@@ -66,7 +66,18 @@ class ButtonOptions extends Component {
             ))}
           </View>
           <View style={styles.row}>
-            {this.props.options.slice(4, 7).map((option, index) => (
+            {this.props.options.slice(2, 4).map((option, index) => (
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.onChange(option);
+                  this.updateActiveOption(option);
+                }}>
+                {this.createButton(option)}
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.row}>
+            {this.props.options.slice(4, 5).map((option, index) => (
               <TouchableOpacity
                 onPress={() => {
                   this.props.onChange(option);
@@ -94,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ButtonOptions;
+export default ButtonMultipleOptions;
