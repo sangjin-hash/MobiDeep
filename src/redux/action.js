@@ -1,30 +1,46 @@
-export const SET_USER_SIDO = 'SET_USER_SIDO';
-export const SET_USER_SIGUNGU = 'SET_USER_SIGUNGU';
-export const SET_USER_DONG = 'SET_USER_DONG';
+export const SET_USER_SIDOCODE = 'SET_USER_SIDOCODE';
+export const SET_USER_SIGUNGUCODE = 'SET_USER_SIGUNGUCODE';
+export const SET_USER_NX = 'SET_USER_NX';
+export const SET_USER_NY = 'SET_USER_NY';
+export const SET_USER_UTF8 = 'SET_USER_UTF8';
 
 export const SET_DEVICE_LOCATION = 'SET_DEVICE_LOCATION';
 export const SET_DEVICE_NAME = 'SET_DEVICE_NAME';
 export const SET_DEVICE_QUALITY = 'SET_DEVICE_QUALITY';
 export const SET_DEVICE_ETC = 'SET_DEVICE_ETC';
 
-export const setSido = (sido) => (dispatch) => {
+export const setSidoCode = (sidoCode) => (dispatch) => {
   dispatch({
-    type: SET_USER_SIDO,
-    payload: sido,
+    type: SET_USER_SIDOCODE,
+    payload: sidoCode,
   });
 };
 
-export const setSigungu = (sigungu) => (dispatch) => {
+export const setSigunguCode = (sigunguCode) => (dispatch) => {
   dispatch({
-    type: SET_USER_SIGUNGU,
-    payload: sigungu,
+    type: SET_USER_SIGUNGUCODE,
+    payload: sigunguCode,
   });
 };
 
-export const setDong = (dong) => (dispatch) => {
+export const setNX = (nx) => (dispatch) => {
   dispatch({
-    type: SET_USER_DONG,
-    payload: dong,
+    type: SET_USER_NX,
+    payload: nx,
+  });
+};
+
+export const setNY = (ny) => (dispatch) => {
+  dispatch({
+    type: SET_USER_NY,
+    payload: ny,
+  });
+};
+
+export const setUTF8 = (utf8) => (dispatch) => {
+  dispatch({
+    type: SET_USER_UTF8,
+    payload: utf8,
   });
 };
 

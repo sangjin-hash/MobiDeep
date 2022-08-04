@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {ChevronDownIcon, HStack, Switch} from 'native-base';
-import {colors, height, width} from '../util/globalStyles';
+import {colors, height, width} from '../style/globalStyles';
 import ButtonOptions from './ButtonOptions';
 import ButtonMultipleOptions from './ButtonMultipleOptions';
 import {useSelector, useDispatch} from 'react-redux';
@@ -29,6 +29,7 @@ export default function ExtendedView(props) {
   const [location, setLocation] = useState(null);
   const [name, setName] = useState(null);
   const [quality, setQuality] = useState([]);
+  const [etcConfig, setEtcConfig] = useState([]);
 
   const initial_height = height * props.in_height;
   const extended_height = height * props.ex_height;
@@ -46,7 +47,7 @@ export default function ExtendedView(props) {
       Animated.timing(animatedController, {
         duration: 500,
         toValue: 0,
-        easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+
         useNativeDriver: true,
       }).start();
       setParentHeight(initial_height);
@@ -54,7 +55,7 @@ export default function ExtendedView(props) {
       Animated.timing(animatedController, {
         duration: 500,
         toValue: 1,
-        easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+
         useNativeDriver: true,
       }).start();
       setParentHeight(extended_height);
@@ -97,6 +98,7 @@ export default function ExtendedView(props) {
               '화장실',
               '그외',
             ]}
+            selected={location}
             onChange={(option) => setLocation(option)}></ButtonOptions>
         </View>
       );
@@ -140,6 +142,7 @@ export default function ExtendedView(props) {
               '천식',
               '학습에 도움',
             ]}
+            selected={quality}
             onChange={(option) =>
               setQuality(...quality, option)
             }></ButtonMultipleOptions>

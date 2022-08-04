@@ -1,7 +1,9 @@
 import {
-  SET_USER_SIDO,
-  SET_USER_SIGUNGU,
-  SET_USER_DONG,
+  SET_USER_SIDOCODE,
+  SET_USER_SIGUNGUCODE,
+  SET_USER_NX,
+  SET_USER_NY,
+  SET_USER_UTF8,
   SET_DEVICE_LOCATION,
   SET_DEVICE_NAME,
   SET_DEVICE_QUALITY,
@@ -9,9 +11,11 @@ import {
 } from './action';
 
 const initialState = {
-  sido: '',
-  sigungu: '',
-  dong: '',
+  sidoCode: null,
+  sigunguCode: null,
+  nx: null,
+  ny: null,
+  utf8: '',
 };
 
 const initialDeviceState = {
@@ -23,12 +27,16 @@ const initialDeviceState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER_SIDO:
-      return {...state, sido: action.payload};
-    case SET_USER_SIGUNGU:
-      return {...state, sigungu: action.payload};
-    case SET_USER_DONG:
-      return {...state, dong: action.payload};
+    case SET_USER_SIDOCODE:
+      return {...state, sidoCode: action.payload};
+    case SET_USER_SIGUNGUCODE:
+      return {...state, sigunguCode: action.payload};
+    case SET_USER_NX:
+      return {...state, nx: action.payload};
+    case SET_USER_NY:
+      return {...state, ny: action.payload};
+    case SET_USER_UTF8:
+      return {...state, utf8: action.payload};
     default:
       return state;
   }

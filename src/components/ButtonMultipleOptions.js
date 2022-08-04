@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {colors, height, width} from '../util/globalStyles';
+import {colors, height, width} from '../style/globalStyles';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {VStack} from 'native-base';
 
@@ -8,7 +8,7 @@ class ButtonMultipleOptions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //activeOption: this.props.options[-1],
+      activeOption: this.props.selected,
     };
   }
 

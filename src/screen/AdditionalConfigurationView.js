@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 import React, {useState} from 'react';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {colors, height, width} from '../util/globalStyles';
+import {colors, height, width} from '../style/globalStyles';
 import ExtendedView from '../components/ExtendedView';
 
 export default function AdditionalConfiguraionView({navigation, route}) {

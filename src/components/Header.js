@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {colors, height} from '../util/globalStyles';
-import {RFValue} from 'react-native-responsive-fontsize';
+import {colors, height} from '../style/globalStyles';
 
 const Header = () => {
   return (
