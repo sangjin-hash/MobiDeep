@@ -37,11 +37,12 @@ export default function AreaConfigurationView({navigation}) {
   const onPass = () => {
     if (validate()) {
       if (sido == '이어도') {
+        dispatch(setSidoCode(''));
         dispatch(setSigunguCode(1));
+        dispatch(setUTF8(''));
         dispatch(setNX(28));
         dispatch(setNY(8));
-      } else if (sido == '세종특별자치시') {
-        // 추후에 다시
+        navigation.navigate('TestView');
       } else {
         let areaPMSidoCodes = AreaPMCode.AreaPMSidoCodes.filter(
           (k) => k.sido === sido,
@@ -50,12 +51,12 @@ export default function AreaConfigurationView({navigation}) {
         dispatch(setUTF8(areaPMSidoCodes[0].utf8));
 
         let areaPMSigunguCodes = AreaPMCode.AreaPMSigunguCodes.filter(
-          (k) => k.sido === sido && k.sigungu === sigungu,
+          (k) => k.sido === sido && sigungu.includes(k.sigungu),
         );
         dispatch(setSigunguCode(areaPMSigunguCodes[0].sigunguCode));
 
         let areaGrids = AreaGridCode.AreaGrids.filter(
-          (k) => k.sido === sido && k.sigungu === sigungu,
+          (k) => k.sido === sido && k.sigungu === sigungu && k.dong === dong,
         );
         dispatch(setNX(areaGrids[0].nx));
         dispatch(setNY(areaGrids[0].ny));
@@ -73,7 +74,7 @@ export default function AreaConfigurationView({navigation}) {
       } else {
         return false;
       }
-    } else if (sido == '세종특별자치시') {
+    } else if (sido == '이어도') {
       return true;
     } else {
       if (sigungu == '') {
@@ -84,6 +85,16 @@ export default function AreaConfigurationView({navigation}) {
         return true;
       }
     }
+  };
+
+  const filterSigungu = (k) => {
+    var list = new Set(
+      AreaGridCode.AreaGrids.filter((x) => x.sido === k).map(
+        (x) => Object.values(x)[1],
+      ),
+    );
+    list.delete('');
+    return Array.from(list);
   };
 
   return (
@@ -119,15 +130,6 @@ export default function AreaConfigurationView({navigation}) {
                       bg: colors.backgroundWhite,
                     }}
                     onValueChange={(value) => {
-                      // let obj = AreaPMCode.AreaPMSidoCodes.filter(
-                      //   (k) => k.sido === value,
-                      // );
-                      // setSido(obj[0].sido);
-                      // dispatch(setSidoCode(obj[0].sidoCode));
-                      // dispatch(setUTF8(obj[0].utf8));
-                      // dispatch(setSigunguCode(''));
-                      // dispatch(setNX(''));
-                      // dispatch(setNY(''));
                       setSido(value);
                       setSigungu('');
                       setDong('');
@@ -136,6 +138,7 @@ export default function AreaConfigurationView({navigation}) {
                     {AreaPMCode.AreaPMSidoCodes.map((x) => (
                       <Select.Item label={x.sido} value={x.sido} />
                     ))}
+                    <Select.Item label="이어도" value="이어도" />
                   </Select>
                   {!error1 ? (
                     <></>
@@ -158,22 +161,13 @@ export default function AreaConfigurationView({navigation}) {
                       bg: colors.backgroundWhite,
                     }}
                     onValueChange={(value) => {
-                      // let obj = AreaPMCode.AreaPMSigunguCodes.filter(
-                      //   (k) => k.sigungu === value,
-                      // );
-                      // setSigungu(obj[0].sigungu);
-                      // dispatch(setSigunguCode(obj[0].sigunguCode));
                       setSigungu(value);
+                      setDong('');
                     }}
                     mt={1}>
-                    {
-                      // 여기 해결하기 -> 중복 제거하면 됨. (Json 형태 리스트 중복제거)
-                      AreaGridCode.AreaGrids.filter((k) => k.sido === sido).map(
-                        (x) => (
-                          <Select.Item label={x.sigungu} value={x.sigungu} />
-                        ),
-                      )
-                    }
+                    {filterSigungu(sido).map((x) => (
+                      <Select.Item label={x} value={x} />
+                    ))}
                   </Select>
                   {!error2 ? (
                     <></>
@@ -194,17 +188,11 @@ export default function AreaConfigurationView({navigation}) {
                   bg: colors.backgroundWhite,
                 }}
                 onValueChange={(value) => {
-                  // let obj = AreaGridCode.AreaGrids.filter(
-                  //   (k) => k.dong === value,
-                  // );
-                  // setDong(obj[0].dong);
-                  // dispatch(setNX(obj[0].nx));
-                  // dispatch(setNY(obj[0].ny));
                   setDong(value);
                 }}
                 mt={1}>
                 {AreaGridCode.AreaGrids.filter(
-                  (k) => k.sigungu === sigungu,
+                  (k) => k.sido === sido && k.sigungu === sigungu,
                 ).map((x) => (
                   <Select.Item label={x.dong} value={x.dong} />
                 ))}
@@ -247,7 +235,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: RFValue(15),
     fontWeight: 'bold',
-    color: colors.textGrey,
+    color: colors.Grey,
     textAlign: 'center',
     marginBottom: 25,
   },
