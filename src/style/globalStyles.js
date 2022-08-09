@@ -28,7 +28,7 @@ export const text = {
     '보다 정확한 서비스를 위해\n기계가 설치된 지역 정보를 등록해주시기 바랍니다.',
   text3: '지역등록',
   text4: '필수 기입 항목입니다.',
-  text5: '등록',
+  text5: '    등록    ',
 
   // Stage Component
   text6: '1단계 WiFi 설정',

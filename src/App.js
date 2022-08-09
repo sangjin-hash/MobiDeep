@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AreaConfigurationView from './screen/AreaConfigurationView';
 import AdditionalConfiguraionView from './screen/AdditionalConfigurationView';
-import TestView from './screen/TestView';
 import Header from './components/Header';
 import {Provider} from 'react-redux';
 import {Store} from './redux/store';
@@ -23,7 +22,6 @@ function App() {
             name="AreaConfigurationView"
             component={AreaConfigurationView}
           />
-          <Stack.Screen name="TestView" component={TestView} />
           <Stack.Screen
             name="AdditionalConfigurationView"
             component={AdditionalConfiguraionView}

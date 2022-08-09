@@ -1,4 +1,4 @@
-import {StyleSheet, Text, Pressable, Image} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   NativeBaseProvider,
   Select,
@@ -6,10 +6,11 @@ import {
   FormControl,
   WarningOutlineIcon,
   ScrollView,
+  Text,
+  Button,
 } from 'native-base';
 import React, {useState} from 'react';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {colors, height, width} from '../style/globalStyles';
+import {colors, font, text} from '../style/globalStyles';
 import {AreaPMCode} from '../Config/AreaPMCode';
 import {AreaGridCode} from '../Config/AreaGridCode';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,6 +21,7 @@ import {
   setNY,
   setUTF8,
 } from '../redux/action';
+import FirstStageIcon from '../components/FirstStageIcon';
 
 export default function AreaConfigurationView({navigation}) {
   const {sidoCode, sigunguCode, nx, ny, utf8} = useSelector(
@@ -42,7 +44,7 @@ export default function AreaConfigurationView({navigation}) {
         dispatch(setUTF8(''));
         dispatch(setNX(28));
         dispatch(setNY(8));
-        navigation.navigate('TestView');
+        navigation.navigate('AdditionalConfigurationView');
       } else {
         let areaPMSidoCodes = AreaPMCode.AreaPMSidoCodes.filter(
           (k) => k.sido === sido,
@@ -60,7 +62,7 @@ export default function AreaConfigurationView({navigation}) {
         );
         dispatch(setNX(areaGrids[0].nx));
         dispatch(setNY(areaGrids[0].ny));
-        navigation.navigate('TestView');
+        navigation.navigate('AdditionalConfigurationView');
       }
     }
   };
@@ -102,95 +104,85 @@ export default function AreaConfigurationView({navigation}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box style={styles.container}>
           <Box style={styles.body}>
-            <Image
-              style={styles.image}
-              source={require('../../assets/top_tab.png')}
-              resizeMode="stretch"
-            />
-            <Text style={styles.mainTitle} numberOfLines={2}>
-              {'기기가 추가되었습니다.\n지역설정을 해주시기 바랍니다.'}
+            <FirstStageIcon></FirstStageIcon>
+            <Text fontSize="2xl" style={styles.mainTitle}>
+              {text.text1}
             </Text>
-            <Text style={styles.subTitle} numberOfLines={2}>
-              {
-                '보다 정확한 서비스를 위해\n기계가 설치된 지역 정보를 등록해주시기 바랍니다.'
-              }
+            <Text fontSize="md" style={styles.subTitle}>
+              {text.text2}
             </Text>
             <Box style={styles.selectBox}>
-              <Box style={styles.select}>
-                <Text style={styles.selectTitle}>지역등록</Text>
-              </Box>
+              <Text fontSize="md" style={styles.selectTitle}>
+                {text.text3}
+              </Text>
 
-              <Box style={styles.selectBoxRow}>
-                <FormControl isRequired isInvalid={error1}>
-                  <Select
-                    style={styles.select}
-                    accessibilityLabel="선택"
-                    placeholder="선택"
-                    _selectedItem={{
-                      bg: colors.backgroundWhite,
-                    }}
-                    onValueChange={(value) => {
-                      setSido(value);
-                      setSigungu('');
-                      setDong('');
-                    }}
-                    mt={1}>
-                    {AreaPMCode.AreaPMSidoCodes.map((x) => (
-                      <Select.Item label={x.sido} value={x.sido} />
-                    ))}
-                    <Select.Item label="이어도" value="이어도" />
-                  </Select>
-                  {!error1 ? (
-                    <></>
-                  ) : (
-                    <FormControl.ErrorMessage
-                      leftIcon={<WarningOutlineIcon size="xs" />}>
-                      필수 기입 항목입니다.
-                    </FormControl.ErrorMessage>
-                  )}
-                </FormControl>
-              </Box>
+              <FormControl isRequired isInvalid={error1}>
+                <Select
+                  accessibilityLabel="선택"
+                  placeholder="선택"
+                  _selectedItem={{
+                    bg: colors.White,
+                  }}
+                  onValueChange={(value) => {
+                    setSido(value);
+                    setSigungu('');
+                    setDong('');
+                  }}
+                  mt="1.0"
+                  p="1">
+                  {AreaPMCode.AreaPMSidoCodes.map((x) => (
+                    <Select.Item label={x.sido} value={x.sido} />
+                  ))}
+                  <Select.Item label="이어도" value="이어도" />
+                </Select>
+                {!error1 ? (
+                  <></>
+                ) : (
+                  <FormControl.ErrorMessage
+                    leftIcon={<WarningOutlineIcon size="xs" />}>
+                    {text.text4}
+                  </FormControl.ErrorMessage>
+                )}
+              </FormControl>
 
-              <Box style={styles.selectBoxRow}>
-                <FormControl isRequired isInvalid={error2}>
-                  <Select
-                    style={styles.select}
-                    accessibilityLabel="선택"
-                    placeholder="선택"
-                    _selectedItem={{
-                      bg: colors.backgroundWhite,
-                    }}
-                    onValueChange={(value) => {
-                      setSigungu(value);
-                      setDong('');
-                    }}
-                    mt={1}>
-                    {filterSigungu(sido).map((x) => (
-                      <Select.Item label={x} value={x} />
-                    ))}
-                  </Select>
-                  {!error2 ? (
-                    <></>
-                  ) : (
-                    <FormControl.ErrorMessage
-                      leftIcon={<WarningOutlineIcon size="xs" />}>
-                      필수 기입 항목입니다.
-                    </FormControl.ErrorMessage>
-                  )}
-                </FormControl>
-              </Box>
+              <FormControl isRequired isInvalid={error2}>
+                <Select
+                  accessibilityLabel="선택"
+                  placeholder="선택"
+                  _selectedItem={{
+                    bg: colors.White,
+                  }}
+                  onValueChange={(value) => {
+                    setSigungu(value);
+                    setDong('');
+                  }}
+                  mt="2.5"
+                  p="1">
+                  {filterSigungu(sido).map((x) => (
+                    <Select.Item label={x} value={x} />
+                  ))}
+                </Select>
+                {!error2 ? (
+                  <></>
+                ) : (
+                  <FormControl.ErrorMessage
+                    leftIcon={<WarningOutlineIcon size="xs" />}>
+                    {text.text4}
+                  </FormControl.ErrorMessage>
+                )}
+              </FormControl>
 
               <Select
-                style={styles.select}
                 accessibilityLabel="선택"
                 placeholder="선택"
                 _selectedItem={{
-                  bg: colors.backgroundWhite,
+                  bg: colors.White,
                 }}
                 onValueChange={(value) => {
                   setDong(value);
                 }}
-                mt={1}>
+                mt="2.5"
+                p="1">
                 {AreaGridCode.AreaGrids.filter(
                   (k) => k.sido === sido && k.sigungu === sigungu,
                 ).map((x) => (
@@ -198,9 +190,9 @@ export default function AreaConfigurationView({navigation}) {
                 ))}
               </Select>
             </Box>
-            <Pressable style={styles.button} onPress={onPass}>
-              <Text style={styles.text}>등록</Text>
-            </Pressable>
+            <Button style={styles.button} onPress={onPass} size="md">
+              {text.text5}
+            </Button>
           </Box>
         </Box>
       </ScrollView>
@@ -211,7 +203,7 @@ export default function AreaConfigurationView({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.LightGrey,
     alignItems: 'center',
   },
   body: {
@@ -220,58 +212,39 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
-  image: {
-    width: width * 350,
-    height: height * 41,
-    marginBottom: 29,
-  },
   mainTitle: {
-    fontSize: RFValue(25),
     color: colors.Blue,
     textAlign: 'center',
     marginBottom: 20,
-    fontFamily: 'NotoSansKR-Bold',
+    fontFamily: font.Bold,
   },
   subTitle: {
-    fontSize: RFValue(15),
-    fontWeight: 'bold',
+    fontFamily: font.Medium,
     color: colors.Grey,
     textAlign: 'center',
     marginBottom: 25,
   },
-  button: {
-    width: width * 70,
-    height: height * 36,
-    backgroundColor: colors.Blue,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   text: {
-    fontSize: RFValue(16),
-    color: colors.backgroundWhite,
+    fontFamily: font.Medium,
+    color: colors.White,
     textAlign: 'center',
   },
   selectBox: {
-    alignSelf: 'baseline',
-    backgroundColor: colors.backgroundWhite,
+    width: '100%',
+    backgroundColor: colors.White,
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
   },
   selectTitle: {
-    fontSize: RFValue(16),
-    fontWeight: 'bold',
-    color: colors.textBlack,
+    fontFamily: font.Bold,
+    color: colors.Black,
     marginBottom: 10,
   },
-  selectBoxRow: {
-    width: width * 310,
-    alignSelf: 'baseline',
-    marginBottom: 10,
-  },
-  select: {
-    width: width * 310,
-    height: height * 40,
+  button: {
+    backgroundColor: colors.Blue,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
