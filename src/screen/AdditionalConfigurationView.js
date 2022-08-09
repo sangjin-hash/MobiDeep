@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, Pressable, Image} from 'react-native';
 import {
   NativeBaseProvider,
   Box,
@@ -72,7 +66,7 @@ export default function AdditionalConfiguraionView({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.LightGrey,
     alignItems: 'center',
   },
 
@@ -96,7 +90,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: RFValue(15),
-    color: colors.textGrey,
+    color: colors.Grey,
     textAlign: 'center',
     marginBottom: 33,
   },
@@ -110,7 +104,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: RFValue(16),
-    color: colors.backgroundWhite,
+    color: colors.White,
     textAlign: 'center',
   },
 });

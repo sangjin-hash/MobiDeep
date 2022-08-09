@@ -233,20 +233,20 @@ const styles = StyleSheet.create({
   box: {
     width: width * 350,
     height: height * 93,
-    backgroundColor: colors.backgroundWhite,
+    backgroundColor: colors.White,
     padding: 20,
     borderRadius: 10,
     alignContent: 'center',
   },
   boxMainTitle: {
     fontSize: RFValue(16),
-    color: colors.textBlackGrey,
+    color: colors.BlackGrey,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   boxSubTitle: {
     fontSize: RFValue(16),
-    color: colors.textGrey,
+    color: colors.Grey,
     marginBottom: 5,
   },
   nameContainer: {
@@ -259,25 +259,25 @@ const styles = StyleSheet.create({
     height: height * 40,
     marginBottom: 5,
     borderWidth: 1,
-    borderColor: colors.iconGrey,
+    borderColor: colors.LightBlackGrey,
     padding: 10,
   },
   nameTextExample: {
     fontSize: RFValue(16),
-    color: colors.textGrey,
+    color: colors.Grey,
   },
   etcSubContainer: {
     width: width * 310,
     height: height * 51,
     borderBottomWidth: 1,
-    borderBottomColor: colors.lightGrey,
+    borderBottomColor: colors.LightGrey2,
     justifyContent: 'center',
   },
   etcSubMultiContainer: {
     width: width * 310,
     height: height * 68,
     borderBottomWidth: 1,
-    borderBottomColor: colors.lightGrey,
+    borderBottomColor: colors.LightGrey2,
     justifyContent: 'center',
   },
   etcSubEndContainer: {
@@ -299,6 +299,6 @@ const styles = StyleSheet.create({
   },
   etcText: {
     fontSize: RFValue(16),
-    color: colors.textGrey,
+    color: colors.Grey,
   },
 });

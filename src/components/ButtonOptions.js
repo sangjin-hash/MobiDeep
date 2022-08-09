@@ -26,11 +26,9 @@ class ButtonOptions extends Component {
           width: width * (41 + 14 * num),
           height: height * 44,
           borderWidth: 1,
-          borderColor: colors.iconGrey,
+          borderColor: colors.LightBlackGrey,
           backgroundColor:
-            this.state.activeOption === option
-              ? colors.Blue
-              : colors.backgroundWhite,
+            this.state.activeOption === option ? colors.Blue : colors.White,
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 10,
@@ -40,9 +38,7 @@ class ButtonOptions extends Component {
           style={{
             fontSize: RFValue(16),
             color:
-              this.state.activeOption === option
-                ? colors.backgroundWhite
-                : colors.textGrey,
+              this.state.activeOption === option ? colors.White : colors.Grey,
           }}>
           {option}
         </Text>

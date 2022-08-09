@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   btn_text: {
     fontSize: RFValue(16),
-    color: colors.backgroundWhite,
+    color: colors.White,
     textAlign: 'center',
   },
 });

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   view: {
     width: '100%',
     height: height * 101.12,
-    backgroundColor: colors.backgroundWhite,
+    backgroundColor: colors.White,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 25,
     fontWeights: 'bold',
-    color: colors.textBlack,
+    color: colors.Black,
   },
 });
 
