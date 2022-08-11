@@ -14,7 +14,7 @@ function App() {
     <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="AreaConfigurationView"
+          initialRouteName="AdditionalConfigurationView"
           screenOptions={{
             header: () => <Header></Header>,
           }}>

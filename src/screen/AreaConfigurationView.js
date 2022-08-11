@@ -111,7 +111,7 @@ export default function AreaConfigurationView({navigation}) {
             <Text fontSize="md" style={styles.subTitle}>
               {text.text2}
             </Text>
-            <Box style={styles.selectBox}>
+            <Box style={styles.selectBox} shadow={2}>
               <Text fontSize="md" style={styles.selectTitle}>
                 {text.text3}
               </Text>

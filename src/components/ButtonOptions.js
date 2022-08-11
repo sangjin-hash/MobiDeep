@@ -1,93 +1,70 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {colors, height, width} from '../style/globalStyles';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {VStack} from 'native-base';
+import React, {useCallback, useEffect, useState} from 'react';
+import {TouchableOpacity} from 'react-native';
+import {NativeBaseProvider, Box, Flex, Center, Text} from 'native-base';
+import {colors, font, height, width} from '../style/globalStyles';
 
-class ButtonOptions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeOption: this.props.selected,
-    };
-  }
+export default function ButtonOptions(props) {
+  const data = props.options;
+  const indexList = [0];
+  const [activeOption, setActiveOption] = useState(props.selected);
 
-  updateActiveOption = (activeOption) => {
-    this.setState({
-      activeOption,
-    });
-  };
-
-  createButton(option) {
+  const createButton = (option) => {
     let num = option.length;
     return (
-      <View
+      <Center
         style={{
           width: width * (41 + 14 * num),
           height: height * 44,
           borderWidth: 1,
           borderColor: colors.LightBlackGrey,
-          backgroundColor:
-            this.state.activeOption === option ? colors.Blue : colors.White,
-          alignItems: 'center',
-          justifyContent: 'center',
+          backgroundColor: activeOption === option ? colors.Blue : colors.White,
           marginRight: 10,
           borderRadius: 5,
         }}>
         <Text
+          fontSize="md"
           style={{
-            fontSize: RFValue(16),
-            color:
-              this.state.activeOption === option ? colors.White : colors.Grey,
+            color: activeOption === option ? colors.White : colors.Grey,
+            fontFamily: font.Regular,
           }}>
           {option}
         </Text>
-      </View>
+      </Center>
     );
-  }
+  };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <VStack space={2}>
-          <View style={styles.row}>
-            {this.props.options.slice(0, 4).map((option) => (
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.onChange(option);
-                  this.updateActiveOption(option);
-                }}>
-                {this.createButton(option)}
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.row}>
-            {this.props.options.slice(4, 7).map((option) => (
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.onChange(option);
-                  this.updateActiveOption(option);
-                }}>
-                {this.createButton(option)}
-              </TouchableOpacity>
-            ))}
-          </View>
-        </VStack>
-      </View>
-    );
-  }
+  const createRow = () => {
+    var rowLength = 0;
+    data.map((option, index) => {
+      rowLength += 41 + 14 * option.length;
+      if (rowLength > 295) {
+        rowLength = 41 + 14 * option.length;
+        indexList.push(index);
+      }
+    });
+    indexList.push(data.length);
+  };
+
+  return (
+    <NativeBaseProvider>
+      <Flex h={'20'} mt="4">
+        {createRow()}
+        {indexList.slice(0, indexList.length - 1).map((value, index) => (
+          <Box w="100%" flexDirection={'row'} mb="2">
+            {props.options
+              .slice(indexList[index], indexList[index + 1])
+              .map((option) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    props.onChange(option);
+                    setActiveOption(option);
+                  }}>
+                  {createButton(option)}
+                </TouchableOpacity>
+              ))}
+          </Box>
+        ))}
+      </Flex>
+    </NativeBaseProvider>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: width * 310,
-    height: height * 98,
-  },
-  row: {
-    width: width * 310,
-    height: height * 44,
-    flexDirection: 'row',
-  },
-});
-
-export default ButtonOptions;

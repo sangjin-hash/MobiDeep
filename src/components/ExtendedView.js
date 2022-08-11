@@ -1,25 +1,24 @@
 import React, {useState, useRef} from 'react';
 import {
   View,
-  Text,
   TouchableWithoutFeedback,
   StyleSheet,
   Animated,
-  Easing,
   TextInput,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {ChevronDownIcon, HStack, Switch} from 'native-base';
-import {colors, height, width} from '../style/globalStyles';
-import ButtonOptions from './ButtonOptions';
-import ButtonMultipleOptions from './ButtonMultipleOptions';
-import {useSelector, useDispatch} from 'react-redux';
 import {
-  setDeviceLocation,
-  setDeviceName,
-  setDeviceQuality,
-  setDeviceEtc,
-} from '../redux/action';
+  ChevronDownIcon,
+  HStack,
+  Switch,
+  Box,
+  Text,
+  Flex,
+  Center,
+  NativeBaseProvider,
+} from 'native-base';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {colors, font, height, text, width} from '../style/globalStyles';
+import ButtonOptions from './ButtonOptions';
 
 export default function ExtendedView(props) {
   //const location = useSelector((state) => state.deviceReducer);
@@ -47,7 +46,6 @@ export default function ExtendedView(props) {
       Animated.timing(animatedController, {
         duration: 500,
         toValue: 0,
-
         useNativeDriver: true,
       }).start();
       setParentHeight(initial_height);
@@ -55,7 +53,6 @@ export default function ExtendedView(props) {
       Animated.timing(animatedController, {
         duration: 500,
         toValue: 1,
-
         useNativeDriver: true,
       }).start();
       setParentHeight(extended_height);
@@ -81,9 +78,17 @@ export default function ExtendedView(props) {
   const LocationInput = () => {
     if (!open) {
       if (location == null) {
-        return <Text style={styles.boxSubTitle}>등록된 정보 없음</Text>;
+        return (
+          <Text fontSize="md" style={styles.boxSubTitle}>
+            {text.text16}
+          </Text>
+        );
       } else {
-        return <Text style={styles.boxSubTitle}>{location}</Text>;
+        return (
+          <Text fontSize="md" style={styles.boxSubTitle}>
+            {location}
+          </Text>
+        );
       }
     } else {
       return (
@@ -108,23 +113,32 @@ export default function ExtendedView(props) {
   const NameInput = () => {
     if (!open) {
       if (name == null) {
-        return <Text style={styles.boxSubTitle}>등록된 정보 없음</Text>;
+        return (
+          <Text fontSize="md" style={styles.boxSubTitle}>
+            {text.text16}
+          </Text>
+        );
       } else {
-        return <Text style={styles.boxSubTitle}>{name}</Text>;
+        return (
+          <Text fontSize="md" style={styles.boxSubTitle}>
+            {name}
+          </Text>
+        );
       }
     } else {
       return (
-        <View style={styles.nameContainer}>
+        <Box>
           <TextInput
             style={styles.nameTextInput}
             onChangeText={setName}
             value={name}
-            placeholder="기기이름을 입력해주세요"
-            maxLength={15}></TextInput>
-          <Text style={styles.nameTextExample}>
-            (예시: 수원집, 서울본가 거실,마이하우스 등)
+            placeholder={text.text17}
+            maxLength={15}
+            marginTop={10}></TextInput>
+          <Text fontSize="md" style={styles.nameTextExample}>
+            {text.text18}
           </Text>
-        </View>
+        </Box>
       );
     }
   };
@@ -133,8 +147,10 @@ export default function ExtendedView(props) {
     if (open) {
       return (
         <View>
-          <Text style={styles.boxSubTitle}>다중선택 가능</Text>
-          <ButtonMultipleOptions
+          <Text fontSize="md" style={styles.boxSubTitle} mt="2" mb="2">
+            {text.text19}
+          </Text>
+          <ButtonOptions
             options={[
               '쾌적한 실내생활',
               '편안한 수면',
@@ -143,11 +159,20 @@ export default function ExtendedView(props) {
               '학습에 도움',
             ]}
             selected={quality}
-            onChange={(option) =>
-              setQuality(...quality, option)
-            }></ButtonMultipleOptions>
+            onChange={(option) => {
+              setQuality(...quality, option);
+            }}></ButtonOptions>
         </View>
       );
+    } else {
+      if (quality.length > 0) {
+        console.log(quality.length);
+        () => {
+          setParentHeight(height * 110);
+          // 이 안으로 안들어옴
+          // logic : null이 아닌 경우, 이 안으로 들어와서 parentHeight를 늘려줌으로써 View를 확장시킨다.
+        };
+      }
     }
   };
 
@@ -157,38 +182,32 @@ export default function ExtendedView(props) {
         <View>
           <View style={styles.etcSubContainer}>
             <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>
-                화재와 같은 이상 공기질 경우 알림 받기
-              </Text>
+              <Text style={styles.etcText}>{text.text21}</Text>
               <Switch size="lg" />
             </HStack>
           </View>
           <View style={styles.etcSubContainer}>
             <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>이상공기질 일 경우 알림받기</Text>
+              <Text style={styles.etcText}>{text.text22}</Text>
               <Switch size="lg" />
             </HStack>
           </View>
           <View style={styles.etcSubMultiContainer}>
             <HStack style={styles.etcMultiBox}>
-              <Text style={styles.etcText}>
-                7 심야(오후 10시 ~ 오전 6시)에 알림{'\n'}울리지 않기
-              </Text>
+              <Text style={styles.etcText}>{text.text23}</Text>
               <Switch size="lg" />
             </HStack>
           </View>
 
           <View style={styles.etcSubContainer}>
             <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>화면 밝기 낮추기</Text>
+              <Text style={styles.etcText}>{text.text24}</Text>
               <Switch size="lg" />
             </HStack>
           </View>
           <View style={styles.etcSubEndContainer}>
             <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>
-                심야(오후 10시 ~ 오전 6시)에 낮추기
-              </Text>
+              <Text style={styles.etcText}>{text.text25}</Text>
               <Switch size="lg" />
             </HStack>
           </View>
@@ -198,72 +217,66 @@ export default function ExtendedView(props) {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <TouchableWithoutFeedback onPress={() => toggleAnimation()}>
-        <View style={[styles.box, {width: width * 350, height: parentHeight}]}>
-          <View style={styles.subContainer}>
-            <Text style={styles.boxMainTitle}>{props.title}</Text>
-            <Animated.View
-              style={{
-                transform: [{rotateZ: arrowAngle}],
-              }}>
-              <ChevronDownIcon size={6}></ChevronDownIcon>
-            </Animated.View>
-          </View>
-          {SetUpChildren(props.num)}
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+    <NativeBaseProvider>
+      <Center mb="5">
+        <TouchableWithoutFeedback onPress={() => toggleAnimation()}>
+          <Box
+            style={[
+              styles.box,
+              {
+                width: width * 350,
+                height: parentHeight,
+              },
+            ]}
+            shadow={2}>
+            <Flex
+              direction="row"
+              justifyContent={'space-between'}
+              alignItems="center">
+              <Text fontSize="md" style={styles.boxMainTitle}>
+                {props.title}
+              </Text>
+              <Animated.View
+                style={{
+                  transform: [{rotateZ: arrowAngle}],
+                }}>
+                <ChevronDownIcon size={6}></ChevronDownIcon>
+              </Animated.View>
+            </Flex>
+            {SetUpChildren(props.num)}
+          </Box>
+        </TouchableWithoutFeedback>
+      </Center>
+    </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  subContainer: {
-    width: width * 310,
-    height: height * 31,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignContent: 'center',
-  },
   box: {
-    width: width * 350,
-    height: height * 93,
     backgroundColor: colors.White,
     padding: 20,
     borderRadius: 10,
-    alignContent: 'center',
   },
   boxMainTitle: {
-    fontSize: RFValue(16),
     color: colors.BlackGrey,
-    fontWeight: 'bold',
+    fontFamily: font.Bold,
     marginBottom: 5,
   },
   boxSubTitle: {
-    fontSize: RFValue(16),
     color: colors.Grey,
+    fontFamily: font.Regular,
     marginBottom: 5,
   },
-  nameContainer: {
-    width: width * 310,
-    height: height * 74,
-    justifyContent: 'center',
-  },
   nameTextInput: {
-    width: width * 310,
-    height: height * 40,
+    width: '100%',
+    height: height * 45,
     marginBottom: 5,
     borderWidth: 1,
     borderColor: colors.LightBlackGrey,
     padding: 10,
   },
   nameTextExample: {
-    fontSize: RFValue(16),
+    fontFamily: font.Regular,
     color: colors.Grey,
   },
   etcSubContainer: {

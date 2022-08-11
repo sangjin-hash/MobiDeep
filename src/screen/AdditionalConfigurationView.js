@@ -1,16 +1,9 @@
-import {StyleSheet, Text, Pressable, Image} from 'react-native';
-import {
-  NativeBaseProvider,
-  Box,
-  ChevronDownIcon,
-  VStack,
-  HStack,
-  ScrollView,
-} from 'native-base';
+import {StyleSheet} from 'react-native';
+import {NativeBaseProvider, Box, ScrollView, Button, Text} from 'native-base';
 import React, {useState} from 'react';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {colors, height, width} from '../style/globalStyles';
+import {colors, text, font} from '../style/globalStyles';
 import ExtendedView from '../components/ExtendedView';
+import SecondStageIcon from '../components/SecondStageIcon';
 
 export default function AdditionalConfiguraionView({navigation, route}) {
   const onPass = () => {
@@ -22,40 +15,37 @@ export default function AdditionalConfiguraionView({navigation, route}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Box style={styles.container}>
           <Box style={styles.body}>
-            <Image
-              style={styles.image}
-              source={require('../../assets/top_tab2.png')}
-              resizeMode="stretch"
-            />
-            <Text style={styles.mainTitle}>추가 설정</Text>
-            <Text style={styles.subTitle} numberOfLines={2}>
-              {
-                'AirDeep의 설치 위치, 기기 이름, 세부 설정 등의\n정보를 설정하거나 변경할 수 있습니다'
-              }
+            <SecondStageIcon></SecondStageIcon>
+            <Text fontSize="2xl" style={styles.mainTitle} mb="1.5">
+              {text.text10}
             </Text>
+            <Text fontSize="md" style={styles.subTitle} mb="6.0">
+              {text.text11}
+            </Text>
+
             <ExtendedView
-              in_height="93"
-              ex_height="172"
-              title="기기 설치 위치 등록"
+              in_height="110"
+              ex_height="190"
+              title={text.text12}
               num={1}></ExtendedView>
             <ExtendedView
-              in_height="93"
-              ex_height="148"
-              title="기기 이름 설정"
+              in_height="110"
+              ex_height="170"
+              title={text.text13}
               num={2}></ExtendedView>
             <ExtendedView
-              in_height="64"
-              ex_height="260"
-              title="나의 공기질에 대한 관심사"
+              in_height="85"
+              ex_height="280"
+              title={text.text14}
               num={3}></ExtendedView>
             <ExtendedView
-              in_height="64"
-              ex_height="342"
-              title="기타 설정"
+              in_height="85"
+              ex_height="360"
+              title={text.text15}
               num={4}></ExtendedView>
-            <Pressable style={styles.button} onPress={onPass}>
-              <Text style={styles.text}>확인</Text>
-            </Pressable>
+            <Button style={styles.button} onPress={onPass} size="md">
+              {text.text20}
+            </Button>
           </Box>
         </Box>
       </ScrollView>
@@ -76,35 +66,20 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
-  image: {
-    width: width * 350,
-    height: height * 41,
-    marginBottom: 29,
-  },
   mainTitle: {
-    fontSize: RFValue(25),
-    fontWeight: 'bold',
     color: colors.Blue,
     textAlign: 'center',
-    marginBottom: 5,
+    fontFamily: font.Bold,
   },
   subTitle: {
-    fontSize: RFValue(15),
+    fontFamily: font.Medium,
     color: colors.Grey,
     textAlign: 'center',
-    marginBottom: 33,
   },
   button: {
-    width: width * 70,
-    height: height * 36,
     backgroundColor: colors.Blue,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    fontSize: RFValue(16),
-    color: colors.White,
-    textAlign: 'center',
   },
 });

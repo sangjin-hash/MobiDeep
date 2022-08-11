@@ -26,7 +26,7 @@ const SecondStageIcon = () => {
 const styles = StyleSheet.create({
   firstStage: {
     width: '30%',
-    backgroundColor: colors.Blue,
+    backgroundColor: colors.MediumGrey,
     borderRadius: 20,
   },
   stageText: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   secondStage: {
     width: '70%',
-    backgroundColor: colors.MediumGrey,
+    backgroundColor: colors.Blue,
     borderRadius: 20,
   },
 });
