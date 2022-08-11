@@ -54,6 +54,7 @@ export const text = {
   text23: '심야(오후 10시 ~ 오전 6시)에 알림\n울리지 않기',
   text24: '화면 밝기 낮추기',
   text25: '심야(오후 10시 ~ 오전 6시)에 낮추기',
+  text26: '설치 위치를 입력해주세요.',
 };
 
 export const basicDimensions = {

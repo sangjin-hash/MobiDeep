@@ -19,20 +19,20 @@ import {
 import {RFValue} from 'react-native-responsive-fontsize';
 import {colors, font, height, text, width} from '../style/globalStyles';
 import ButtonOptions from './ButtonOptions';
+import {AdditionalCode} from '../Config/AdditionalCode';
 
 export default function ExtendedView(props) {
-  //const location = useSelector((state) => state.deviceReducer);
-  //const dispatch = useDispatch();
-
   const [open, setOpen] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [name, setName] = useState(null);
-  const [quality, setQuality] = useState([]);
-  const [etcConfig, setEtcConfig] = useState([]);
+  const [location, setLocation] = useState(
+    new Array(AdditionalCode.InstallLocation.length).fill(false),
+  );
+  const [etcLocation, setEtcLocation] = useState('');
 
-  const initial_height = height * props.in_height;
-  const extended_height = height * props.ex_height;
-  const [parentHeight, setParentHeight] = useState(initial_height);
+  const [name, setName] = useState(null);
+  const [quality, setQuality] = useState(
+    new Array(AdditionalCode.AirQuality.length).fill(false),
+  );
+  const [etcConfig, setEtcConfig] = useState([]);
 
   const animatedController = useRef(new Animated.Value(0)).current;
 
@@ -48,14 +48,12 @@ export default function ExtendedView(props) {
         toValue: 0,
         useNativeDriver: true,
       }).start();
-      setParentHeight(initial_height);
     } else {
       Animated.timing(animatedController, {
         duration: 500,
         toValue: 1,
         useNativeDriver: true,
       }).start();
-      setParentHeight(extended_height);
     }
     setOpen(!open);
   };
@@ -77,36 +75,43 @@ export default function ExtendedView(props) {
 
   const LocationInput = () => {
     if (!open) {
-      if (location == null) {
-        return (
-          <Text fontSize="md" style={styles.boxSubTitle}>
-            {text.text16}
-          </Text>
-        );
-      } else {
-        return (
-          <Text fontSize="md" style={styles.boxSubTitle}>
-            {location}
-          </Text>
-        );
+      let temp = text.text16;
+      location.map((value, index) => {
+        value ? (temp = AdditionalCode.InstallLocation[index]) : temp;
+      });
+
+      if (location[AdditionalCode.InstallLocation.length - 1]) {
+        etcLocation === '' ? (temp = text.text16) : (temp = etcLocation);
       }
+      return (
+        <Text fontSize="md" style={styles.boxSubTitle}>
+          {temp}
+        </Text>
+      );
     } else {
       return (
-        <View>
+        <Box>
           <ButtonOptions
-            options={[
-              '거실',
-              '주방',
-              '안방',
-              '방',
-              '드레스룸',
-              '화장실',
-              '그외',
-            ]}
+            options={AdditionalCode.InstallLocation}
             selected={location}
-            isMultiple={false}
-            onChange={(option) => setLocation(option)}></ButtonOptions>
-        </View>
+            onChange={(index) =>
+              setLocation(
+                location.map((value, i) =>
+                  i === index ? (location[i] = !value) : (location[i] = false),
+                ),
+              )
+            }></ButtonOptions>
+          {location[AdditionalCode.InstallLocation.length - 1] ? (
+            <TextInput
+              style={styles.locationTextInput}
+              onChangeText={setEtcLocation}
+              value={etcLocation}
+              placeholder={text.text26}
+              maxLength={15}></TextInput>
+          ) : (
+            <></>
+          )}
+        </Box>
       );
     }
   };
@@ -152,28 +157,32 @@ export default function ExtendedView(props) {
             {text.text19}
           </Text>
           <ButtonOptions
-            options={[
-              '쾌적한 실내생활',
-              '편안한 수면',
-              '미세먼지로 인한 알레르기',
-              '천식',
-              '학습에 도움',
-            ]}
+            options={AdditionalCode.AirQuality}
             selected={quality}
-            isMultiple={true}
-            onChange={(option) => {
-              setQuality((arr) => [...arr, option]);
+            onChange={(index) => {
+              setQuality(
+                quality.map((value, i) =>
+                  i === index ? (quality[i] = !value) : value,
+                ),
+              );
             }}></ButtonOptions>
         </View>
       );
     } else {
-      if (quality.length > 0) {
-        console.log(quality);
-        // () => {
-        //   setParentHeight(height * 110);
-        //   // 이 안으로 안들어옴
-        //   // logic : null이 아닌 경우, 이 안으로 들어와서 parentHeight를 늘려줌으로써 View를 확장시킨다.
-        // };
+      let temp = [];
+      quality.map((value, index) => {
+        value ? temp.push(AdditionalCode.AirQuality[index]) : temp;
+      });
+      temp.map((value, index) =>
+        index != temp.length - 1 ? (temp[index] = value + ', ') : value,
+      );
+
+      if (temp.length > 0) {
+        return (
+          <Text fontSize="md" style={styles.boxSubTitle}>
+            {temp}
+          </Text>
+        );
       }
     }
   };
@@ -227,7 +236,7 @@ export default function ExtendedView(props) {
               styles.box,
               {
                 width: width * 350,
-                height: parentHeight,
+                alignSelf: 'baseline',
               },
             ]}
             shadow={2}>
@@ -269,10 +278,17 @@ const styles = StyleSheet.create({
     fontFamily: font.Regular,
     marginBottom: 5,
   },
+  locationTextInput: {
+    width: '100%',
+    height: '25%',
+    borderWidth: 1,
+    borderColor: colors.LightBlackGrey,
+    padding: 10,
+  },
   nameTextInput: {
     width: '100%',
-    height: height * 45,
-    marginBottom: 5,
+    height: '45%',
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: colors.LightBlackGrey,
     padding: 10,

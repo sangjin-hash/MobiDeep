@@ -23,26 +23,10 @@ export default function AdditionalConfiguraionView({navigation, route}) {
               {text.text11}
             </Text>
 
-            <ExtendedView
-              in_height="110"
-              ex_height="190"
-              title={text.text12}
-              num={1}></ExtendedView>
-            <ExtendedView
-              in_height="110"
-              ex_height="170"
-              title={text.text13}
-              num={2}></ExtendedView>
-            <ExtendedView
-              in_height="85"
-              ex_height="280"
-              title={text.text14}
-              num={3}></ExtendedView>
-            <ExtendedView
-              in_height="85"
-              ex_height="360"
-              title={text.text15}
-              num={4}></ExtendedView>
+            <ExtendedView title={text.text12} num={1}></ExtendedView>
+            <ExtendedView title={text.text13} num={2}></ExtendedView>
+            <ExtendedView title={text.text14} num={3}></ExtendedView>
+            <ExtendedView title={text.text15} num={4}></ExtendedView>
             <Button style={styles.button} onPress={onPass} size="md">
               {text.text20}
             </Button>
