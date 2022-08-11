@@ -104,6 +104,7 @@ export default function ExtendedView(props) {
               '그외',
             ]}
             selected={location}
+            isMultiple={false}
             onChange={(option) => setLocation(option)}></ButtonOptions>
         </View>
       );
@@ -159,19 +160,20 @@ export default function ExtendedView(props) {
               '학습에 도움',
             ]}
             selected={quality}
+            isMultiple={true}
             onChange={(option) => {
-              setQuality(...quality, option);
+              setQuality((arr) => [...arr, option]);
             }}></ButtonOptions>
         </View>
       );
     } else {
       if (quality.length > 0) {
-        console.log(quality.length);
-        () => {
-          setParentHeight(height * 110);
-          // 이 안으로 안들어옴
-          // logic : null이 아닌 경우, 이 안으로 들어와서 parentHeight를 늘려줌으로써 View를 확장시킨다.
-        };
+        console.log(quality);
+        // () => {
+        //   setParentHeight(height * 110);
+        //   // 이 안으로 안들어옴
+        //   // logic : null이 아닌 경우, 이 안으로 들어와서 parentHeight를 늘려줌으로써 View를 확장시킨다.
+        // };
       }
     }
   };

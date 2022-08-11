@@ -1,15 +1,36 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {NativeBaseProvider, Box, Flex, Center, Text} from 'native-base';
 import {colors, font, height, width} from '../style/globalStyles';
 
 export default function ButtonOptions(props) {
   const data = props.options;
+  const isMultiple = props.isMultiple;
   const indexList = [0];
-  const [activeOption, setActiveOption] = useState(props.selected);
 
-  const createButton = (option) => {
+  const [selectedArr, setSelectedArr] = useState(
+    new Array(data.length).fill(false),
+  );
+
+  const updateButton = (index) => {
+    if (isMultiple) {
+      setSelectedArr(
+        selectedArr.map((value, i) =>
+          i === index ? (selectedArr[i] = !value) : value,
+        ),
+      );
+    } else {
+      setSelectedArr(
+        selectedArr.map((value, i) =>
+          i === index ? (selectedArr[i] = !value) : (selectedArr[i] = false),
+        ),
+      );
+    }
+  };
+
+  const createButton = (option, index) => {
     let num = option.length;
+
     return (
       <Center
         style={{
@@ -17,14 +38,14 @@ export default function ButtonOptions(props) {
           height: height * 44,
           borderWidth: 1,
           borderColor: colors.LightBlackGrey,
-          backgroundColor: activeOption === option ? colors.Blue : colors.White,
+          backgroundColor: selectedArr[index] ? colors.Blue : colors.White,
           marginRight: 10,
           borderRadius: 5,
         }}>
         <Text
           fontSize="md"
           style={{
-            color: activeOption === option ? colors.White : colors.Grey,
+            color: selectedArr[index] ? colors.White : colors.Grey,
             fontFamily: font.Regular,
           }}>
           {option}
@@ -49,17 +70,17 @@ export default function ButtonOptions(props) {
     <NativeBaseProvider>
       <Flex h={'20'} mt="4">
         {createRow()}
-        {indexList.slice(0, indexList.length - 1).map((value, index) => (
+        {indexList.slice(0, indexList.length - 1).map((value, i) => (
           <Box w="100%" flexDirection={'row'} mb="2">
             {props.options
-              .slice(indexList[index], indexList[index + 1])
-              .map((option) => (
+              .slice(indexList[i], indexList[i + 1])
+              .map((option, index) => (
                 <TouchableOpacity
                   onPress={() => {
                     props.onChange(option);
-                    setActiveOption(option);
+                    updateButton(index + indexList[i]);
                   }}>
-                  {createButton(option)}
+                  {createButton(option, index + indexList[i])}
                 </TouchableOpacity>
               ))}
           </Box>
