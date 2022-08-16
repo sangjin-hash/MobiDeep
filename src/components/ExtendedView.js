@@ -16,8 +16,7 @@ import {
   Center,
   NativeBaseProvider,
 } from 'native-base';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {colors, font, height, text, width} from '../style/globalStyles';
+import {colors, font, text, width} from '../style/globalStyles';
 import ButtonOptions from './ButtonOptions';
 import {AdditionalCode} from '../Config/AdditionalCode';
 
@@ -32,7 +31,7 @@ export default function ExtendedView(props) {
   const [quality, setQuality] = useState(
     new Array(AdditionalCode.AirQuality.length).fill(false),
   );
-  const [etcConfig, setEtcConfig] = useState([]);
+  const [etcConfig, setEtcConfig] = useState();
 
   const animatedController = useRef(new Animated.Value(0)).current;
 
@@ -141,7 +140,7 @@ export default function ExtendedView(props) {
             placeholder={text.text17}
             maxLength={15}
             marginTop={10}></TextInput>
-          <Text fontSize="md" style={styles.nameTextExample}>
+          <Text fontSize="md" style={styles.text}>
             {text.text18}
           </Text>
         </Box>
@@ -190,39 +189,29 @@ export default function ExtendedView(props) {
   const EtcInput = () => {
     if (open) {
       return (
-        <View>
-          <View style={styles.etcSubContainer}>
-            <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>{text.text21}</Text>
-              <Switch size="lg" />
-            </HStack>
-          </View>
-          <View style={styles.etcSubContainer}>
-            <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>{text.text22}</Text>
-              <Switch size="lg" />
-            </HStack>
-          </View>
-          <View style={styles.etcSubMultiContainer}>
-            <HStack style={styles.etcMultiBox}>
-              <Text style={styles.etcText}>{text.text23}</Text>
-              <Switch size="lg" />
-            </HStack>
-          </View>
-
-          <View style={styles.etcSubContainer}>
-            <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>{text.text24}</Text>
-              <Switch size="lg" />
-            </HStack>
-          </View>
-          <View style={styles.etcSubEndContainer}>
-            <HStack style={styles.etcBox}>
-              <Text style={styles.etcText}>{text.text25}</Text>
-              <Switch size="lg" />
-            </HStack>
-          </View>
-        </View>
+        <Box>
+          {AdditionalCode.EtcConfiguration.map((value, index) =>
+            index != AdditionalCode.EtcConfiguration.length - 1 ? (
+              <Box style={styles.etcSubContainer} mt={2}>
+                <HStack style={styles.etcBox}>
+                  <Text fontSize="md" style={styles.text}>
+                    {value}
+                  </Text>
+                  <Switch size="lg" />
+                </HStack>
+              </Box>
+            ) : (
+              <Box style={styles.etcSubEndContainer} mt={2}>
+                <HStack style={styles.etcBox}>
+                  <Text fontSize="md" style={styles.text}>
+                    {value}
+                  </Text>
+                  <Switch size="lg" />
+                </HStack>
+              </Box>
+            ),
+          )}
+        </Box>
       );
     }
   };
@@ -293,43 +282,25 @@ const styles = StyleSheet.create({
     borderColor: colors.LightBlackGrey,
     padding: 10,
   },
-  nameTextExample: {
-    fontFamily: font.Regular,
-    color: colors.Grey,
-  },
   etcSubContainer: {
-    width: width * 310,
-    height: height * 51,
+    width: '100%',
+    alignSelf: 'baseline',
     borderBottomWidth: 1,
     borderBottomColor: colors.LightGrey2,
-    justifyContent: 'center',
-  },
-  etcSubMultiContainer: {
-    width: width * 310,
-    height: height * 68,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.LightGrey2,
-    justifyContent: 'center',
+    marginBottom: 5,
   },
   etcSubEndContainer: {
-    width: width * 310,
-    height: height * 51,
-    justifyContent: 'center',
+    width: '100%',
+    alignSelf: 'baseline',
   },
   etcBox: {
-    width: width * 310,
-    height: height * 31,
+    width: '100%',
+    alignSelf: 'baseline',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  etcMultiBox: {
-    width: width * 310,
-    height: height * 48,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  etcText: {
-    fontSize: RFValue(16),
+  text: {
+    fontFamily: font.Regular,
     color: colors.Grey,
   },
 });
