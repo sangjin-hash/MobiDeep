@@ -19,7 +19,7 @@ const initialState = {
 };
 
 const initialDeviceState = {
-  locaiton: '',
+  location: '',
   name: '',
   quality: [],
   etcConfig: [],

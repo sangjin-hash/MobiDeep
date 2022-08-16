@@ -19,19 +19,33 @@ import {
 import {colors, font, text, width} from '../style/globalStyles';
 import ButtonOptions from './ButtonOptions';
 import {AdditionalCode} from '../Config/AdditionalCode';
+import {
+  setDeviceLocation,
+  setDeviceName,
+  setDeviceQuality,
+  setDeviceEtc,
+} from '../redux/action';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function ExtendedView(props) {
+  const {location, name, quality, etcConfig} = useSelector(
+    (state) => state.deviceReducer,
+  );
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
-  const [location, setLocation] = useState(
+  const [locationArr, setLocation] = useState(
     new Array(AdditionalCode.InstallLocation.length).fill(false),
   );
   const [etcLocation, setEtcLocation] = useState('');
 
-  const [name, setName] = useState(null);
-  const [quality, setQuality] = useState(
+  const [deviceName, setName] = useState('');
+  const [qualityArr, setQuality] = useState(
     new Array(AdditionalCode.AirQuality.length).fill(false),
   );
-  const [etcConfig, setEtcConfig] = useState();
+  const [etcConfiguration, setEtcConfiguration] = useState(
+    new Array(AdditionalCode.EtcConfiguration.length).fill(false),
+  );
 
   const animatedController = useRef(new Animated.Value(0)).current;
 
@@ -75,11 +89,11 @@ export default function ExtendedView(props) {
   const LocationInput = () => {
     if (!open) {
       let temp = text.text16;
-      location.map((value, index) => {
+      locationArr.map((value, index) => {
         value ? (temp = AdditionalCode.InstallLocation[index]) : temp;
       });
 
-      if (location[AdditionalCode.InstallLocation.length - 1]) {
+      if (locationArr[AdditionalCode.InstallLocation.length - 1]) {
         etcLocation === '' ? (temp = text.text16) : (temp = etcLocation);
       }
       return (
@@ -92,19 +106,27 @@ export default function ExtendedView(props) {
         <Box>
           <ButtonOptions
             options={AdditionalCode.InstallLocation}
-            selected={location}
-            onChange={(index) =>
+            selected={locationArr}
+            onChange={(index) => {
               setLocation(
-                location.map((value, i) =>
-                  i === index ? (location[i] = !value) : (location[i] = false),
+                locationArr.map((value, i) =>
+                  i === index
+                    ? (locationArr[i] = !value)
+                    : (locationArr[i] = false),
                 ),
-              )
-            }></ButtonOptions>
-          {location[AdditionalCode.InstallLocation.length - 1] ? (
+              );
+              index != AdditionalCode.InstallLocation.length - 1
+                ? dispatch(
+                    setDeviceLocation(AdditionalCode.InstallLocation[index]),
+                  )
+                : dispatch(setDeviceLocation(''));
+            }}></ButtonOptions>
+          {locationArr[AdditionalCode.InstallLocation.length - 1] ? (
             <TextInput
               style={styles.locationTextInput}
-              onChangeText={setEtcLocation}
-              value={etcLocation}
+              onChangeText={(value) => setEtcLocation(value)}
+              onEndEditing={() => dispatch(setDeviceLocation(etcLocation))}
+              defaultValue={etcLocation}
               placeholder={text.text26}
               maxLength={15}></TextInput>
           ) : (
@@ -117,7 +139,7 @@ export default function ExtendedView(props) {
 
   const NameInput = () => {
     if (!open) {
-      if (name == null) {
+      if (name == '') {
         return (
           <Text fontSize="md" style={styles.boxSubTitle}>
             {text.text16}
@@ -135,8 +157,9 @@ export default function ExtendedView(props) {
         <Box>
           <TextInput
             style={styles.nameTextInput}
-            onChangeText={setName}
-            value={name}
+            onChangeText={(value) => setName(value)}
+            onEndEditing={() => dispatch(setDeviceName(deviceName))}
+            defaultValue={deviceName}
             placeholder={text.text17}
             maxLength={15}
             marginTop={10}></TextInput>
@@ -157,19 +180,24 @@ export default function ExtendedView(props) {
           </Text>
           <ButtonOptions
             options={AdditionalCode.AirQuality}
-            selected={quality}
+            selected={qualityArr}
             onChange={(index) => {
               setQuality(
-                quality.map((value, i) =>
-                  i === index ? (quality[i] = !value) : value,
+                qualityArr.map((value, i) =>
+                  i === index ? (qualityArr[i] = !value) : value,
                 ),
               );
+              let temp = [];
+              qualityArr.map((value, index) => {
+                value ? temp.push(index) : temp;
+              });
+              dispatch(setDeviceQuality(temp));
             }}></ButtonOptions>
         </View>
       );
     } else {
       let temp = [];
-      quality.map((value, index) => {
+      qualityArr.map((value, index) => {
         value ? temp.push(AdditionalCode.AirQuality[index]) : temp;
       });
       temp.map((value, index) =>
@@ -197,7 +225,13 @@ export default function ExtendedView(props) {
                   <Text fontSize="md" style={styles.text}>
                     {value}
                   </Text>
-                  <Switch size="lg" />
+                  <Switch
+                    size="lg"
+                    isChecked={etcConfiguration[index]}
+                    onToggle={() => {
+                      etcInputCheck(index);
+                    }}
+                  />
                 </HStack>
               </Box>
             ) : (
@@ -206,7 +240,13 @@ export default function ExtendedView(props) {
                   <Text fontSize="md" style={styles.text}>
                     {value}
                   </Text>
-                  <Switch size="lg" />
+                  <Switch
+                    size="lg"
+                    isChecked={etcConfiguration[index]}
+                    onToggle={() => {
+                      etcInputCheck(index);
+                    }}
+                  />
                 </HStack>
               </Box>
             ),
@@ -214,6 +254,18 @@ export default function ExtendedView(props) {
         </Box>
       );
     }
+  };
+
+  const etcInputCheck = (index) => {
+    setEtcConfiguration(
+      etcConfiguration.map((value, i) =>
+        i === index ? (etcConfiguration[i] = !value) : value,
+      ),
+    );
+
+    let temp = [];
+    etcConfiguration.map((value, i) => (value ? temp.push(i) : value));
+    dispatch(setDeviceEtc(temp));
   };
 
   return (

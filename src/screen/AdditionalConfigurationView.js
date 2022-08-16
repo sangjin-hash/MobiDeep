@@ -1,13 +1,23 @@
 import {StyleSheet} from 'react-native';
 import {NativeBaseProvider, Box, ScrollView, Button, Text} from 'native-base';
-import React, {useState} from 'react';
+import React from 'react';
 import {colors, text, font} from '../style/globalStyles';
 import ExtendedView from '../components/ExtendedView';
 import SecondStageIcon from '../components/SecondStageIcon';
+import {useSelector} from 'react-redux';
 
 export default function AdditionalConfiguraionView({navigation, route}) {
+  const {location, name, quality, etcConfig} = useSelector(
+    (state) => state.deviceReducer,
+  );
+
   const onPass = () => {
-    navigation.navigate('AreaConfigurationView');
+    console.log('location = ' + location);
+    console.log('name = ' + name);
+    console.log('quality = ' + quality);
+    console.log('etcConfig = ' + etcConfig);
+    console.log('---------');
+    //navigation.navigate('AreaConfigurationView');
   };
 
   return (
